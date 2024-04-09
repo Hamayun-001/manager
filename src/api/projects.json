@@ -1,0 +1,82 @@
+[
+  {
+    "_id": "38a0c575-6a1e-4c3b-979d-afce07e8b6bc",
+    "title": "Agile Project Management Software"
+  },
+  {
+    "_id": "34b3aabb-9018-41f6-b3c1-d3a6d6f6e2b4",
+    "title": "Code Quality Analyzer"
+  },
+  {
+    "_id": "176021bf-02c1-4387-b7a8-b6259e805a3a",
+    "title": "Automated Testing Framework"
+  },
+  {
+    "_id": "82ef9e0e-ee17-4097-b7cb-6002d84f00ac",
+    "title": "Version Control System"
+  },
+  {
+    "_id": "b9c31d49-6ab8-47d5-8b6a-0d92fb8cde1d",
+    "title": "Automated Build System"
+  },
+  {
+    "_id": "a3121a7a-7c9e-4aee-b7e3-246b8cb16f29",
+    "title": "Continuous Integration Server"
+  },
+  {
+    "_id": "6fd5a502-51da-47e3-87b2-cb68f7b7e33e",
+    "title": "Dependency Management Tool"
+  },
+  {
+    "_id": "1d1d1df2-09d7-462b-a418-1ec07fd7bc5a",
+    "title": "Online Code Editor"
+  },
+  {
+    "_id": "d48b29da-1e6e-4a9b-98bb-af0f8441e5b8",
+    "title": "Code Snippet Repository"
+  },
+  {
+    "_id": "9e7e46cb-cfd4-48a2-986a-31c4f2f31cf2",
+    "title": "Continuous Deployment Pipeline"
+  },
+  {
+    "_id": "f4542da3-0e0a-482b-b0e6-67844642b9fc",
+    "title": "Collaborative IDE"
+  },
+  {
+    "_id": "4d0f5a89-31f3-4489-84c2-5d7d5a0e52c4",
+    "title": "Bug Tracking System"
+  },
+  {
+    "_id": "bf8cb98b-7e3a-4718-b8b7-00f8ac56b768",
+    "title": "Static Code Analysis Tool"
+  },
+  {
+    "_id": "5419dd20-674b-44b7-849d-2d7741e83edf",
+    "title": "Task Management Tool"
+  },
+  {
+    "_id": "a8bcbfce-775a-41aa-92a7-0b0e3fe19baf",
+    "title": "API Documentation Tool"
+  },
+  {
+    "_id": "22297b9d-6a0c-45a9-b60e-dc9d1b4e5997",
+    "title": "Performance Profiling Tool"
+  },
+  {
+    "_id": "2f09e0c4-3b86-47a2-bb4c-1741e4a43088",
+    "title": "Project Documentation Generator"
+  },
+  {
+    "_id": "5e7314f6-10eb-4143-9cbb-b0e08c157de4",
+    "title": "Configuration Management Tool"
+  },
+  {
+    "_id": "fae054fc-3540-4e45-91ed-82c4f83378a0",
+    "title": "Error Monitoring System"
+  },
+  {
+    "_id": "21b2b95d-3a6b-45a7-8656-87e50243117d",
+    "title": "Code Review Platform"
+  }
+]
