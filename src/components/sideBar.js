@@ -22,8 +22,8 @@ function SideBar() {
             },
           }}>
             <h1 className='text-light'>TODO LIST</h1>
+            <MenuItem> Projects </MenuItem>
             <MenuItem> Tasks </MenuItem>
-            <MenuItem> Line charts </MenuItem>
           <MenuItem> Documentation </MenuItem>
           <MenuItem> Calendar </MenuItem>
         </Menu>
