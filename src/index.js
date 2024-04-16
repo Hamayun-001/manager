@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import project from "./projects";
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'froala-editor/css/froala_style.min.css';
@@ -11,21 +12,32 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import Project from './projects';
+import Task from './Tasks';
 
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <div>Hello world!</div>,
+    element: <App />,
+  },
+  {
+    path: "/projects",
+    element: <Project />,
+  },
+  {
+    path: "/projects/:id",
+    element: <Task />,
   },
 ]);
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <App  />
-  </React.StrictMode>
+  <RouterProvider router={router} />
+  // <React.StrictMode>
+  //   <App  />
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

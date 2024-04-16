@@ -1,10 +1,11 @@
 import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 
 function SideBar() {
     return (
-    <Sidebar style={{position:"fixed",height:"100%"}} backgroundColor='rgb(94, 179, 139)' >
+    <Sidebar style={{position:"relative",height:"100vh"}} backgroundColor='rgb(94, 179, 139)' >
         <Menu
         style={{padding:"20px",color:"white"}}
         menuItemStyles={{
@@ -22,8 +23,8 @@ function SideBar() {
             },
           }}>
             <h1 className='text-light'>TODO LIST</h1>
-            <MenuItem> Projects </MenuItem>
-            <MenuItem> Tasks </MenuItem>
+            <MenuItem component={<Link to="/projects"/>}> Projects </MenuItem>
+            <MenuItem component={<Link to="/" />}> Tasks </MenuItem>
           <MenuItem> Documentation </MenuItem>
           <MenuItem> Calendar </MenuItem>
         </Menu>

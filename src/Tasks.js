@@ -1,20 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
-import React, { useState } from 'react';
-import rightChevron from './images/right-chevron.png'; // Relative path to the image file
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import { useParams } from 'react-router-dom';
 import FroalaEditorComponent from 'react-froala-wysiwyg';
 import SideBar from './components/sideBar';
-
+import Tasks from './api/tasks.json';
+import { v4 as uuidv4 } from 'uuid';
 
 import {
   Accordion,
   AccordionBody,
   AccordionHeader,
   AccordionItem,
-  Button, 
-  Modal, 
-  ModalHeader, 
-  ModalBody, 
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
   ModalFooter,
   Input,
   Label,
@@ -25,92 +24,69 @@ import {
   DropdownItem,
   Collapse,
 } from 'reactstrap';
+import rightChevron from './images/right-chevron.png';
 
-
-function App() {
+function Task() {
   const [modal, setModal] = useState(false);
+  const [currentTask, setCurrentTask] = useState('');
+  const [description, setDescription] = useState('');
+  const [selectedOption, setSelectedOption] = useState('All');
+  const [isOpen, setIsOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [task, setTask] = useState([]);
+  const { id } = useParams();
 
   const toggleModal = () => setModal(!modal);
-
-  const [currentTask,setCurrentTask] = useState('');
-  const [description,setDescription] = useState('');
-  const [selectedOption, setSelectedOption] = useState('All');
-  
-  const [isOpen, setIsOpen] = useState(false);
-
   const toggleCollapse = () => setIsOpen(!isOpen);
+  const toggleDropdown = () => setDropdownOpen(prevState => !prevState);
 
-
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  const toggleDropdown = () => setDropdownOpen((prevState) => prevState = !prevState);
-
-  let count = 1
-  const [task,setTask] = useState([
-    {id:1,
-      name:"First",
-      detail:"You can modify any of this with custom CSS or overriding our defaultvariables. It&#39;s also worth noting that just about any HTML cango within the  though the transitio ndoes limit overflow.",
-      complete:true
-    },
-    {id:2,
-      name:"Second",
-      detail:"You can modify any of this with custom CSS or overriding our defaultvariables. It&#39;s also worth noting that just about any HTML cango within the  though the transitio ndoes limit overflow.",
-      complete:true
+  useEffect(() => {
+    if (id) {
+      const matchedTasks = Tasks.tasks.filter(task => task.projectId === id);
+      setTask(prevTasks => [...prevTasks, ...matchedTasks]);
     }
-  ]);
-  
-  // Assuming `task` is defined elsewhere in your code
-localStorage.setItem('tasks', JSON.stringify(task));
+  }, [id]);
 
-  const handleSubmit = () => {
-  let  tid = Math.random();    
-  setTask([...task, {id:tid,name: currentTask, detail: description, complete: false}]);
-  setCurrentTask('');
-  setDescription('');
-  toggleModal();
-  }
-
-
-  const handleModelChange = (value) => {
-    // Extract text from HTML
+  const handleModelChange = useCallback(value => {
     const plainText = value.replace(/<[^>]*>?/gm, '');
     setDescription(plainText);
-};  
+  }, []);
 
-  const handleDropdownItemClick = (option) => {
-    setDropdownOpen((prevState) => false);
-    console.log(setDropdownOpen);
+  const handleDropdownItemClick = useCallback(option => {
+    setDropdownOpen(false);
     setSelectedOption(option);
+  }, []);
+
+  const completeTask = useCallback(name => {
+    setTask(prevTasks =>
+      prevTasks.map(task => (task.title === name ? { ...task, status: 'COMPLETED' } : task))
+    );
+  }, []);
+
+  const filteredTasks = useMemo(() => {
+    return task.filter(task => {
+      if (selectedOption === 'Completed') {
+        return task.status === 'COMPLETED';
+      } else if (selectedOption === 'Not Completed') {
+        return task.status === 'PENDING';
+      }
+      return true;
+    });
+  }, [selectedOption, task]);
+
+  const handleSubmit = () => {
+    const tid = uuidv4();
+    setTask(prevTasks => [...prevTasks, { _id: tid, title: currentTask, description, status: 'PENDING',projectId:id }]);
+    setCurrentTask('');
+    setDescription('');
+    toggleModal();
   };
 
-   const completeTask = (name,id) =>{
-      console.log(name);
-       task.map((task)=>{ 
-          if(task.name === name)
-          {
-            task.complete = !task.complete;
-          }   
-      })
-      console.log(task);
-   }
+  const toggle = id => {
+    setOpen(prevOpen => (prevOpen === id ? null : id));
+  };
 
   const [open, setOpen] = useState('1');
-  const toggle = (id) => {
-    if (open === id) {
-      setOpen();
-    } else {
-      setOpen(id);
-    }
-  };
-
-  const filteredTasks = task.filter(task => {
-    if (selectedOption === 'Completed') {
-      return task.complete;
-    } else if (selectedOption === 'Not Completed') {
-      return !task.complete;
-    }
-    return true;
-  });
 
   return (
         
@@ -127,7 +103,7 @@ localStorage.setItem('tasks', JSON.stringify(task));
         <div>
            <p className='text-secondary' style={{ marginBottom: "5px"}}>
             <span className='me-1' style={{color:"#5eb38b"}}>
-              {task.filter((task)=> !task.complete ).length}  
+              {task.filter((task)=> task.status==='PENDING' ).length}  
               </span> 
                / {task.length} Tasks left
             <Button style={{padding: "4px"}} className='bg-transparent text-success border-0' onClick={toggleCollapse} >
@@ -145,7 +121,7 @@ localStorage.setItem('tasks', JSON.stringify(task));
                   style={{height:"12px"}}
                   className='shadow'
                   color='secondary'
-                  value={(task.length === 0) ? 0 : (task.filter(task => task.complete).length / task.length) * 100}
+                  value={(task.length === 0) ? 0 : (task.filter(task => task.status === "COMPLETED").length / task.length) * 100}
                 />
             </Collapse>
             </div>
@@ -178,30 +154,30 @@ localStorage.setItem('tasks', JSON.stringify(task));
         
         {filteredTasks.map((task,index) => (
         <AccordionItem 
-          style={{opacity: (task.complete) ? '0.5' : '1.0'}} 
+          style={{opacity: (task.status === "COMPLETED") ? '0.5' : '1.0'}} 
           className='border-start-0 border-end-0' 
-          key={task.name}>
+          key={task.title}>
           <AccordionHeader 
-            targetId={task.name} 
+            targetId={task.title} 
              onClick={(e) => { e.stopPropagation(); 
               toggle(false); }}>
           <Input
           style={{border:"1px solid #bfb5b5"}} 
-          onChange={ () => completeTask(task.name,task.id)} 
-          checked={task.complete} 
+          onChange={ () => completeTask(task.title,task._id)} 
+          checked={task.status==="COMPLETED"} 
           className='shadow-sm me-3 rounded-circle p-2'
           type="checkbox" />
           <span className='accordion-custom-button'>
-          {task.name}
+          {task.title}
           </span>
           <span style={{position:'absolute',right:5,opacity:0,padding:"15px"}} 
-             onClick={(e) => { e.stopPropagation(); toggle(task.name); }} 
+             onClick={(e) => { e.stopPropagation(); toggle(task.title); }} 
              className=' accordion-custom-button'>
           ...........
           </span>
           </AccordionHeader>
-          <AccordionBody className='text-start' accordionId={task.name}>
-            {task.detail}
+          <AccordionBody className='text-start' accordionId={task.title}>
+            {task.description}
           </AccordionBody>
         </AccordionItem>
         ))}
@@ -244,6 +220,6 @@ localStorage.setItem('tasks', JSON.stringify(task));
 }
 
 
-export default App;
+export default Task;
 
 
