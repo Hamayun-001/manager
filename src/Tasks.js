@@ -59,7 +59,10 @@ function Task() {
 
   const completeTask = useCallback(name => {
     setTask(prevTasks =>
-      prevTasks.map(task => (task.title === name ? { ...task, status: 'COMPLETED' } : task))
+      prevTasks.map(task => (task.title === name ? 
+        (task.status === 'PENDING') ? { ...task, status: 'COMPLETED' } : { ...task, status: 'PENDING' } : 
+        task
+      ))
     );
   }, []);
 
@@ -170,7 +173,7 @@ function Task() {
           <span className='accordion-custom-button'>
           {task.title}
           </span>
-          <span style={{position:'absolute',right:5,opacity:0,padding:"15px"}} 
+          <span style={{position:'absolute',right:0,opacity:0,padding:"1px",zIndex:9999999,width:"47"}} 
              onClick={(e) => { e.stopPropagation(); toggle(task.title); }} 
              className=' accordion-custom-button'>
           ...........
